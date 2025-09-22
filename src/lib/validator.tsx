@@ -29,3 +29,35 @@ export const LogInSchema = z.object({
 });
 
 export type LogInData = z.infer<typeof LogInSchema>;
+
+
+
+export const ForgotSchema = z
+    .object({
+        password: z
+            .string()
+            .min(6, "Password must be at least 6 characters long")
+            .max(100, "Password is too long"),
+        confirmPassword: z
+            .string()
+            .min(6, "Password must be at least 6 characters long")
+            .max(100, "Password is too long"),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+        path: ["confirmPassword"],
+        message: "Passwords do not match",
+    });
+
+export type ForgotData = z.infer<typeof ForgotSchema>;
+
+
+export const VerifyEmailSchema = z.object({
+    email: z.string().email("Invalid email address"),
+});
+
+export type VerifyEmailData = z.infer<typeof VerifyEmailSchema>;
+
+
+
+
+
