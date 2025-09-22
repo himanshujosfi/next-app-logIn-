@@ -10,6 +10,8 @@ import { useForm } from "react-hook-form";
 import z from "zod";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { LogInApi } from "./action";
+import { toast } from "sonner";
 
 export default function LogInPageUi() {
 
@@ -20,7 +22,6 @@ export default function LogInPageUi() {
     const form = useForm<LogInData>({
         resolver: zodResolver(LogInSchema),
         defaultValues: {
-            // username: "",
             email: "",
             password: ""
         },
@@ -29,7 +30,19 @@ export default function LogInPageUi() {
     async function onSubmit(values: z.infer<typeof LogInSchema>) {
         setError(undefined)
         startTransition(async () => {
+            try {
+                const result = await LogInApi(values);
+                if (result?.error) {
+                    setError(result.error);
+                    toast.error(result.error);
+                } else {
+                    toast.success("LogIn successfully!");
+                    router.push("/")
 
+                }
+            } catch (err) {
+                toast.error("Something went wrong. Please try again.");
+            }
         });
     }
 
