@@ -9,10 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useState, useTransition } from "react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-export default function LogIn() {
+export default function LogInPageUi() {
 
     const [isPending, startTransition] = useTransition()
     const [error, setError] = useState<string | undefined>()
@@ -30,7 +29,7 @@ export default function LogIn() {
     async function onSubmit(values: z.infer<typeof LogInSchema>) {
         setError(undefined)
         startTransition(async () => {
-            const result = await
+
         });
     }
 
@@ -39,19 +38,6 @@ export default function LogIn() {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                    <FormField
-                        control={form.control}
-                        name="username"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Username <span className="text-red-600">*</span></FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Username" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
                     <FormField
                         control={form.control}
                         name="email"

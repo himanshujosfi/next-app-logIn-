@@ -1,8 +1,7 @@
-import { Metadata } from "next";
+import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/themeProvider";
 import { Toaster } from "@/components/ui/sonner";
-
 
 export const metadata: Metadata = {
   title: "My App",
@@ -15,8 +14,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body className="min-h-screen bg-background antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -25,7 +24,6 @@ export default function RootLayout({
         >
           <Toaster position="top-right" richColors />
           {children}
-
         </ThemeProvider>
       </body>
     </html>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Register from "./signUp";
 
 
@@ -10,9 +11,9 @@ export default function SignIn() {
                     <Register />
                     <p className="text-sm text-gray-600 mt-4">
                         Already have an account?{" "}
-                        <a href="/logIn" className="text-blue-500 hover:underline">
+                        <Link href="/logIn" className="text-blue-500 hover:underline">
                             LogIn
-                        </a>
+                        </Link>
                     </p>
                 </div>
             </div>
