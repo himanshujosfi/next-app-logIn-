@@ -3,44 +3,41 @@
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import type { LogInData } from "@/lib/validator";
-import { LogInSchema } from "@/lib/validator";
+import type { VerifyEmailData } from "@/lib/validator";
+import { VerifyEmailSchema } from "@/lib/validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { LogInApi } from "./action";
 import { toast } from "sonner";
-import Link from "next/link";
 
-export default function LogInPageUi() {
+export default function VerifyEmailUi() {
 
     const [isPending, startTransition] = useTransition()
     const [error, setError] = useState<string | undefined>()
     const router = useRouter()
 
-    const form = useForm<LogInData>({
-        resolver: zodResolver(LogInSchema),
+    const form = useForm<VerifyEmailData>({
+        resolver: zodResolver(VerifyEmailSchema),
         defaultValues: {
             email: "",
-            password: ""
         },
     })
 
-    async function onSubmit(values: z.infer<typeof LogInSchema>) {
+    async function onSubmit(values: z.infer<typeof VerifyEmailSchema>) {
         setError(undefined)
         startTransition(async () => {
             try {
-                const result = await LogInApi(values);
-                if (result?.error) {
-                    setError(result.error);
-                    toast.error(result.error);
-                } else {
-                    toast.success("LogIn successfully!");
-                    router.push("/")
+                // const result = await LogInApi(values);
+                // if (result?.error) {
+                //     setError(result.error);
+                //     toast.error(result.error);
+                // } else {
+                //     toast.success("LogIn successfully!");
+                //     router.push("/")
 
-                }
+                // }
             } catch (err) {
                 toast.error("Something went wrong. Please try again.");
             }
@@ -65,23 +62,6 @@ export default function LogInPageUi() {
                             </FormItem>
                         )}
                     />
-                    <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Password <span className="text-red-600">*</span></FormLabel>
-                                <FormControl>
-                                    <Input placeholder="password" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <div>
-                        <Link href="/email">ForgotPassword
-                        </Link>
-                    </div>
                     <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
                 </form>
             </Form>

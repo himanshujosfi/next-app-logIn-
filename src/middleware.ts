@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
     console.log("toekn ", authToken)
     const path = request.nextUrl.pathname
     console.log("path", path)
-    const authPath = path === "/logIn" || path === "/register"
+    const authPath = path === "/logIn" || path === "/register" || path === "/email" || path === "/reset"
     //  Case 1: User has token
     if (authToken) {
         if (authPath) {
@@ -19,12 +19,13 @@ export function middleware(request: NextRequest) {
     //  Case 2: No token
     if (!authToken) {
         if (!authPath) {
-            return NextResponse.redirect(new URL("/login", request.url));
+            return NextResponse.redirect(new URL("/logIn",
+                request.url));
         }
         return NextResponse.next();
     }
 }
 
 export const config = {
-    matcher: ['/', '/logIn', '/register'],
+    matcher: ['/', '/logIn', '/register', '/reset', '/email']
 }

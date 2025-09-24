@@ -9,16 +9,17 @@ datasource db {
 }
 
 model User {
-  id           String    @id
-  username     String    @unique
+  id           String         @id
+  username     String         @unique
   displayName  String
-  email        String?   @unique
+  email        String?        @unique
   passwordHash String?
-  goodleId     String?   @unique
+  goodleId     String?        @unique
   avatarUrl    String?
   bio          String?
-  createdAt    DateTime  @default(now())
+  createdAt    DateTime       @default(now())
   sessions     Session[]
+  verify_Email verify_Email[]
 }
 
 model Session {
@@ -26,4 +27,10 @@ model Session {
   expiresAt DateTime
   userId    String
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model verify_Email {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
