@@ -11,6 +11,7 @@ import z from "zod";
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { EmailVerify } from "../action.tsx/verifyEmail";
 
 export default function VerifyEmailUi() {
 
@@ -29,15 +30,15 @@ export default function VerifyEmailUi() {
         setError(undefined)
         startTransition(async () => {
             try {
-                // const result = await LogInApi(values);
-                // if (result?.error) {
-                //     setError(result.error);
-                //     toast.error(result.error);
-                // } else {
-                //     toast.success("LogIn successfully!");
-                //     router.push("/")
+                const result = await EmailVerify({ credentials: { email: values.email } })
+                if (result?.error) {
+                    setError(result.error);
+                    toast.error(result.error);
+                } else {
+                    toast.success("Verified uccessfully!");
+                    // router.push("/")
 
-                // }
+                }
             } catch (err) {
                 toast.error("Something went wrong. Please try again.");
             }

@@ -12,7 +12,7 @@ export default function LogInPage() {
                     <p className="text-sm text-gray-600 mt-4">
                         Create an new account?{" "}
                         <Link href="/register" className="text-blue-500 hover:underline">
-                            LogIn
+                            Register
                         </Link>
                     </p>
                 </div>
