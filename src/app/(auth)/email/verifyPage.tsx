@@ -12,6 +12,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { EmailVerify } from "../action.tsx/verifyEmail";
+import Loader from "@/lib/loader/loader";
 
 export default function VerifyEmailUi() {
 
@@ -34,10 +35,9 @@ export default function VerifyEmailUi() {
                 if (result?.error) {
                     setError(result.error);
                     toast.error(result.error);
-                    console.log("soethinf went wrong")
                 } else {
-                    toast.success("Verified uccessfully!");
-                    // router.push("/")
+                    toast.success("Verified successfully!");
+                    router.push("/logIn")
                 }
             } catch (err) {
                 toast.error("Something went wrong. Please try again.");
@@ -63,7 +63,12 @@ export default function VerifyEmailUi() {
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
+                    <div className=" flex gap-8 ">
+                        <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
+                        <Button onClick={() => router.push("/logIn")}>Cancle</Button>
+                    </div>
+                    <Loader show={isPending} />
+                    {error && <p className="text-red-600 text-sm">{error}</p>}
                 </form>
             </Form>
         </>

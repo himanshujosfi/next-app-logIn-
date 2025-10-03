@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { ResetPassword } from "../action.tsx/resetPassword";
 import { useSearchParams, useRouter } from "next/navigation";
 import { z } from "zod";
+import Loader from "@/lib/loader/loader";
 
 export default function ResetPasswordUi() {
     const [isPending, startTransition] = useTransition();
@@ -106,6 +107,8 @@ export default function ResetPasswordUi() {
                     {isPending ? "Loading..." : "Submit"}
                 </Button>
                 {error && <p className="text-red-600 text-sm">{error}</p>}
+                <Loader show={isPending} />
+
             </form>
         </Form>
     );

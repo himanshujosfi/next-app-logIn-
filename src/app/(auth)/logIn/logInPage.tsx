@@ -13,6 +13,7 @@ import { useRouter } from "next/navigation";
 import { LogInApi } from "./action";
 import { toast } from "sonner";
 import Link from "next/link";
+import Loader from "@/lib/loader/loader";
 
 export default function LogInPageUi() {
 
@@ -83,6 +84,9 @@ export default function LogInPageUi() {
                         </Link>
                     </div>
                     <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
+
+                    <Loader show={isPending} />
+
                 </form>
             </Form>
         </>

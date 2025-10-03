@@ -12,6 +12,7 @@ import { SignUp } from "./action";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import Loader from "@/lib/loader/loader";
 
 export default function Register() {
 
@@ -92,6 +93,8 @@ export default function Register() {
                         )}
                     />
                     <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
+                    <Loader show={isPending} />
+
                 </form>
             </Form>
         </>
