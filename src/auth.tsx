@@ -13,7 +13,7 @@ export const lucia = new Lucia(adapter, {
         return {
             username: attributes.username,
             email: attributes.email,
-            email_verified
+            email_verified: attributes.email_verified
 
         };
     }

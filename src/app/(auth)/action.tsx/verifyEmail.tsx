@@ -12,7 +12,7 @@ export async function EmailVerify(
         error?: string; user?: any; success?: boolean
     }> {
     try {
-        const { email, userId } = VerifyEmailSchema.parse(credentials);
+        const { email } = VerifyEmailSchema.parse(credentials);
 
         const user = await prisma.user.findUnique({
             where: { email },
@@ -26,7 +26,7 @@ export async function EmailVerify(
         const token = crypto.randomBytes(32).toString("hex");
         const expiresAt = new Date(Date.now() + 1000 * 60 * 10) // valid 10mins
 
-        await prisma.passwordResetToken.create({
+        const reset = await prisma.passwordResetToken.create({
             data: {
                 token,
                 userId: user.id,
@@ -34,16 +34,16 @@ export async function EmailVerify(
 
             },
         });
+        console.log("reset ", reset)
 
         const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset?token=${token}`;
-
-        // send email
-        await sendMail({
+        const sendmails = await sendMail({
             to: user.email!,
             subject: "Reset your password",
             html: `<p>Click <a href="${resetUrl}">here</a> to reset your password. This link expires in 15 minutes.</p>`,
         });
-
+        console.log("mail", sendmails)
+        console.log("user", user)
         return { success: true };
 
 

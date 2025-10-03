@@ -34,10 +34,10 @@ export default function VerifyEmailUi() {
                 if (result?.error) {
                     setError(result.error);
                     toast.error(result.error);
+                    console.log("soethinf went wrong")
                 } else {
                     toast.success("Verified uccessfully!");
                     // router.push("/")
-
                 }
             } catch (err) {
                 toast.error("Something went wrong. Please try again.");

@@ -10,9 +10,9 @@ export async function sendMail({
     html: string;
 }) {
     const transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com", // ✅ Gmail SMTP host
-        port: 465,              // ✅ SSL port
-        secure: true,           // ✅ true for 465
+        service: "gmail",
+        port: 465,
+        secure: true,
         auth: {
             user: process.env.EMAIL_USER, // your full Gmail address
             pass: process.env.EMAIL_PASS, // your Gmail App Password
