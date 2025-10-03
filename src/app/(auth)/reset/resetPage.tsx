@@ -25,7 +25,6 @@ export default function ResetPasswordUi() {
     const searchParams = useSearchParams();
     const router = useRouter();
 
-    // ✅ get token from URL (/reset?token=xxx)
     const token = searchParams.get("token");
 
     const form = useForm<ChangePasswordData>({
@@ -44,16 +43,13 @@ export default function ResetPasswordUi() {
             toast.error("Passwords do not match");
             return;
         }
-
         if (!token) {
             setError("Invalid or missing token.");
             toast.error("Invalid or missing token.");
             return;
         }
-
         startTransition(async () => {
             try {
-                // ✅ send token + new password
                 const result = await ResetPassword(token, values.password);
 
                 if (result?.error) {
@@ -61,7 +57,7 @@ export default function ResetPasswordUi() {
                     toast.error(result.error);
                 } else {
                     toast.success("Password reset successfully!");
-                    // router.push("/login");
+                    router.push("/login");
                 }
             } catch (err) {
                 toast.error("Something went wrong. Please try again.");

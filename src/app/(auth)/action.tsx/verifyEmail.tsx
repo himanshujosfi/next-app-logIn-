@@ -19,34 +19,32 @@ export async function EmailVerify(
         });
         if (!user) {
             throw new Error("User not found");
-            // or: setError("User not found"); return;
         }
 
         // generate secure token
         const token = crypto.randomBytes(32).toString("hex");
-        const expiresAt = new Date(Date.now() + 1000 * 60 * 10) // valid 10mins
+        const expiresAt = new Date(Date.now() + 1000 * 60 * 10)
 
-        const reset = await prisma.passwordResetToken.create({
+        // const reset =
+        await prisma.passwordResetToken.create({
             data: {
                 token,
                 userId: user.id,
                 expiresAt,
-
             },
         });
-        console.log("reset ", reset)
+        // console.log("reset ", reset)
 
         const resetUrl = `${process.env.NEXT_PUBLIC_APP_URL}/reset?token=${token}`;
-        const sendmails = await sendMail({
+        // const sendmails =
+        await sendMail({
             to: user.email!,
             subject: "Reset your password",
             html: `<p>Click <a href="${resetUrl}">here</a> to reset your password. This link expires in 15 minutes.</p>`,
         });
-        console.log("mail", sendmails)
-        console.log("user", user)
+        // console.log("mail", sendmails)
+        // console.log("user", user)
         return { success: true };
-
-
     } catch (err) {
         console.error("LogIn failed:", err);
         return { error: "Something went wrong. Please try again." };

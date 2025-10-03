@@ -6,26 +6,22 @@ import bcrypt from "bcryptjs";
 export async function ResetPassword(
     token: string,
     newPassword: string,
-    // password: string,
 ): Promise<{ error?: string; success?: boolean }> {
     try {
-        // find token in DB
         const resetToken = await prisma.passwordResetToken.findUnique({
             where: { token },
         });
 
         if (!resetToken) {
-            return { error: "Invalid or expired reset token." };
+            return { error: "Expired reset token." };
         }
 
         // check expiry
         if (resetToken.expiresAt < new Date()) {
-            // delete expired token
             await prisma.passwordResetToken.delete({ where: { token } });
             return { error: "Reset link has expired." };
         }
 
-        // hash new password
         const hashedPassword = await bcrypt.hash(newPassword, 10);
 
         // update user password
