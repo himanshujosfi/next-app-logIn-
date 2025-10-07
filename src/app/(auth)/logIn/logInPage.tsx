@@ -83,7 +83,10 @@ export default function LogInPageUi() {
                         <Link href="/email">ForgotPassword
                         </Link>
                     </div>
-                    <Button type="submit" >{isPending ? "loading ... " : "Submit"}</Button>
+                    <div className="flex flex-col gap-4">
+                        <Button type="submit" className="w-full">{isPending ? "loading ... " : "Submit"}</Button>
+                        <Button type="button" className="w-full">Login With Gmail</Button>
+                    </div>
 
                     <Loader show={isPending} />
 
