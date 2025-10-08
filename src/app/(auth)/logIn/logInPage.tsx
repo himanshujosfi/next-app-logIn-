@@ -14,6 +14,7 @@ import { LogInApi } from "./action";
 import { toast } from "sonner";
 import Link from "next/link";
 import Loader from "@/lib/loader/loader";
+import { GoogleUrl } from "../action.tsx/oauthContextUrl";
 
 export default function LogInPageUi() {
 
@@ -47,6 +48,28 @@ export default function LogInPageUi() {
             }
         });
     }
+
+    async function handleSubmit() {
+        setError(undefined)
+        startTransition(async () => {
+            try {
+                const result = await GoogleUrl();
+                if (result?.error) {
+                    setError(result.error);
+                    toast.error(result.error);
+                } else {
+                    if (result.url) {
+                        window.location.href = result.url
+                        toast.success("User login sucessfully ");
+                        // console.log("redires0", result.url)
+                    }
+                }
+            } catch (err) {
+                toast.error("Something went wrong. Please try again.");
+            }
+        });
+    }
+
 
 
     return (
@@ -85,7 +108,7 @@ export default function LogInPageUi() {
                     </div>
                     <div className="flex flex-col gap-4">
                         <Button type="submit" className="w-full">{isPending ? "loading ... " : "Submit"}</Button>
-                        <Button type="button" className="w-full">Login With Gmail</Button>
+                        <Button type="button" className="w-full" onClick={handleSubmit}>Login With Gmail</Button>
                     </div>
 
                     <Loader show={isPending} />
