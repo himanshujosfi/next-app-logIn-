@@ -7,7 +7,7 @@ export async function LogOut(): Promise<{ error?: string }> {
     try {
         const cookieStore = await cookies();
         const sessionCookie = cookieStore.get(lucia.sessionCookieName);
-
+        console.log("sessionCookies", sessionCookie)
         if (!sessionCookie) {
             return { error: "No active session found" };
         }

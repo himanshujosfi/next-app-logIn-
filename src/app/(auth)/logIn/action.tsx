@@ -31,7 +31,16 @@ export async function LogInApi(
             return { error: "Invalid email or password" };
         }
 
-        const session = await lucia.createSession(user.id, {});
+        const existingSession = await prisma.session.findFirst({
+            where: { userId: user.id }
+        })
+        let session
+        if (existingSession) {
+            session = existingSession
+        }
+        else {
+            session = await lucia.createSession(user.id, {});
+        }
         const sessionCookie = lucia.createSessionCookie(session.id);
 
         (await cookies()).set(
